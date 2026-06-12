@@ -26,7 +26,11 @@ This installs `js-yaml` and `glob` (which the scanner needs) plus `playwright` a
 
 ## Step 1 — Read the config before you run anything
 
-Open `data/ats/portals.example.yml` in an editor. Don't run anything yet. This file is the scanner's entire instruction set, and you should be able to predict the scan's behavior from it. Three sections:
+Open `data/ats/portals.example.yml` in an editor. Don't run anything yet. This file is the scanner's entire instruction set, and you should be able to predict the scan's behavior from it.
+
+*A note before you touch it:* in the steady state you should **not** be hand-writing this file — your interests (roles, companies, locations) belong in a profile, and the config should be generated from it with synonym expansion and provider detection (see `docs/search-profile-design.md`). In this tutorial you edit it by hand once, the way you take an engine apart once to learn what the parts do. If you find yourself hand-editing `portals.yml` weekly, that's a process smell — say so in the log.
+
+Three sections:
 
 **`title_filter`** — postings must match at least one `positive` keyword ("Software", "Engineer", "AI", "Machine Learning", "Data", "Product") and no `negative` keyword ("Intern", "Volunteer"). A posting titled "Machine Learning Intern" matches a positive *and* a negative — it gets filtered out.
 
@@ -109,7 +113,8 @@ What each line is telling you:
 
 The numbers are conformant (the script ran, the arithmetic adds up). Are they *adequate*? Two checks no script can do for you:
 
-1. Open `https://job-boards.greenhouse.io/databricks` in a browser. Eyeball the posting count. Is `Total jobs found` in the same ballpark? If the page shows ~250 and the scan found 247, good. If the page shows 600 and the scan found 247, something is wrong — and "the tool said 247" is not an answer.
+1. Open `https://boards-api.greenhouse.io/v1/boards/databricks/jobs` in a browser — yes, the API URL itself; it renders as raw JSON. Search the page for `"absolute_url"` and count (or skim the `jobs` array). Is `Total jobs found` in the same ballpark? If the JSON shows ~250 and the scan found 247, good. If it shows 600 and the scan found 247, something is wrong — and "the tool said 247" is not an answer.
+   *Why not the pretty board page?* If you open `job-boards.greenhouse.io/databricks`, you'll likely be redirected to Databricks' own careers site — many companies now skin their Greenhouse board inside their own website. The human-facing page moved; the machine-facing API did not. This is exactly why the scanner talks to the API and never to the page — and why "I looked at the website" and "the scanner queried the board" can legitimately disagree. The API URL pattern is always `https://boards-api.greenhouse.io/v1/boards/<slug>/jobs`, where `<slug>` is the last segment of the `careers_url`.
 2. Look at the yield: `New offers added / Total jobs found`. If 95% of postings survived your filters, your filters are decorative. If 2% survived, they may be too aggressive. What's the *right* yield? That depends on what you're searching for — which is exactly why it's your call and not the scanner's.
 
 ## Step 7 — Record
@@ -157,5 +162,6 @@ Every exercise ends with a RUN_LOG entry. The log entry *is* the deliverable —
 | `0 companies` scanned | nothing `enabled: true`, or provider name typo | check `enabled:` and `provider:` |
 | `fetch failed` | network/proxy, or board moved | try the careers_url in a browser; see Step 5 |
 | scan can't find config | no `data/ats/portals.yml` | Step 3, or set `REALLOCATION_ENGINE_PORTALS` |
+| board URL redirects to the company's own careers site | company embeds its Greenhouse board in its own website — UI moved, API didn't | normal; verify against the `boards-api.greenhouse.io/v1/boards/<slug>/jobs` JSON instead (see Step 6) |
 
 **Next:** Tutorial 02 (planned) takes the URLs a real (non-dry) scan writes to `data/ats/pipeline.md` and checks whether the postings are actually alive.

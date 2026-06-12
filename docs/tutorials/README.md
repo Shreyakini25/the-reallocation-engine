@@ -4,6 +4,7 @@ Hands-on, step-by-step walkthroughs of the engine's runnable surface. Every tuto
 
 | # | Tutorial | Status | What you'll be able to do |
 |---|---|---|---|
+| 00 | [Exercise Zero — your personal layer](00-personal-layer.md) | **ready** | build `search/`: convert your resume to attested `resume.json`, answer the conditional intake into `profile.yml`, edit your first `gaps.md` |
 | 01 | [Your First Scan](01-first-scan.md) | **ready** | configure the ATS scanner, run a dry scan, read and judge its report, log a run |
 | 02 | Liveness — is the posting real? | planned | check job URLs with `ats:liveness`, classify live/expired/uncertain, understand why a URL is not evidence |
 | 03 | A résumé that survives the parser | planned | generate an ATS-safe PDF with `resumes:pdf` and verify text extraction |
