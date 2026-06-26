@@ -58,12 +58,15 @@ approximately 5 percent of employers only.
 
 ## What This Mode Can and Cannot Verify
 
-Verified by record: employer in H-1B dataset, approvals and denials and approval rate,
-composite score with arithmetic trace, role resilience cognitive demand score.
-
-NOT VERIFIED: wage level distribution Level I-IV (TODO script missing),
-USCIS denial rate for employer and SOC (TODO script missing),
-whether employer will file before OPT expires (HR conversation required).
+| Claim | Source type |
+|---|---|
+| Employer appears in H-1B dataset | record |
+| Total Approvals / Denials / Approval_Rate | record |
+| Composite score with arithmetic trace | record + model-judgment |
+| Role resilience cognitive demand score | record |
+| Wage level distribution Level I-IV | NOT VERIFIED — TODO script missing |
+| USCIS denial rate for employer+SOC | NOT VERIFIED — TODO script missing |
+| Whether employer will file before OPT expires | NOT VERIFIED — HR conversation required |
 
 ## Output Contract
 
