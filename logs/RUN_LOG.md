@@ -183,3 +183,11 @@ private emails, or sensitive application notes.
 - **Rebuilt:** `node scripts/build-instructions.mjs --promote` → `AGENTS.md` + `CLAUDE.md` regenerated; `CLAUDE.md` now imports `@SNICKERDOODLE.md`.
 - **Untouched:** `data/` CSVs (real company names containing "mycroft") and prior RUN_LOG history (append-only).
 - **Result:** conformance + doctor green; no stale `MYCROFT.md` outside data/history.
+
+## 2026-06-26 — H-1B sponsorship audit sample run
+
+* Mode: case-sap-h1b-sponsorship-audit v0.2.0
+* Inputs: 3 SAP ecosystem roles, SOC 15-1252 and 15-1211, OPT end July 2027
+* Commands run: grep 15-1252 data/BLS/compact/soc_occupation_compact.csv && npm run score
+* Result: Apply 1 · Consider 2 · Skip 0. Break test liveness=0 gave Skip gated.
+* Open issues: LCA wage level TODO. USCIS approval rate TODO.
